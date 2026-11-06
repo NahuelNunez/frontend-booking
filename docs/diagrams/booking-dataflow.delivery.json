@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "3bacc5c3-6d97-4055-8982-ab0546b0a96a",
+  "status": "current",
+  "command": "deliver",
+  "type": "dataflow",
+  "input": "E:\\Booking\\docs\\diagrams\\booking-dataflow.json",
+  "output": "E:\\Booking\\docs\\diagrams\\booking-dataflow.html",
+  "specification": {
+    "sha256": "84972fd6011e3bfa1f145f83a545922fab311f73cf45583e54ca51593c78403c",
+    "bytes": 8240
+  },
+  "artifact": {
+    "sha256": "0972cbdfc7061bd1d8f60e41b9b277c835b496a66f86742de7c949523b54f5a0",
+    "bytes": 772447
+  }
+}

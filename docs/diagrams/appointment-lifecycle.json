@@ -1,0 +1,195 @@
+{
+  "schema_version": 2,
+  "diagram_type": "lifecycle",
+  "meta": {
+    "title": "Appointment Status Lifecycle",
+    "output": "docs/diagrams/appointment-lifecycle.html",
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    {
+      "id": "main",
+      "label": "Holds slot"
+    },
+    {
+      "id": "deposit",
+      "label": "Deposit"
+    },
+    {
+      "id": "terminal",
+      "label": "Final"
+    }
+  ],
+  "states": [
+    {
+      "id": "pending",
+      "type": "start",
+      "label": "pending",
+      "sublabel": "row inserted",
+      "lane": "main",
+      "col": 0,
+      "step": "01",
+      "tag": "default"
+    },
+    {
+      "id": "confirmed",
+      "type": "active",
+      "label": "confirmed",
+      "sublabel": "slot held",
+      "lane": "main",
+      "col": 2,
+      "step": "02",
+      "tag": "booked"
+    },
+    {
+      "id": "dep_pending",
+      "type": "waiting",
+      "label": "Deposit pending",
+      "sublabel": "payment.status",
+      "lane": "deposit",
+      "col": 0,
+      "tag": "webhook wait"
+    },
+    {
+      "id": "dep_failed",
+      "type": "failure",
+      "label": "Deposit failed",
+      "sublabel": "or unpaid",
+      "lane": "terminal",
+      "col": 0,
+      "tag": "failed"
+    },
+    {
+      "id": "dep_ok",
+      "type": "success",
+      "label": "Deposit succeeded",
+      "sublabel": "provider id set",
+      "lane": "deposit",
+      "col": 2,
+      "tag": "succeeded"
+    },
+    {
+      "id": "cancelled",
+      "type": "failure",
+      "label": "cancelled",
+      "sublabel": "cancelled_at set",
+      "lane": "terminal",
+      "col": 1,
+      "tag": "who: customer/staff/system"
+    },
+    {
+      "id": "completed",
+      "type": "success",
+      "label": "completed",
+      "sublabel": "review allowed",
+      "lane": "terminal",
+      "col": 3,
+      "tag": "staff marks"
+    },
+    {
+      "id": "no_show",
+      "type": "neutral",
+      "label": "no_show",
+      "sublabel": "guest absent",
+      "lane": "terminal",
+      "col": 4,
+      "tag": "staff marks"
+    }
+  ],
+  "transitions": [
+    {
+      "from": "pending",
+      "to": "confirmed",
+      "label": "no deposit",
+      "variant": "emphasis"
+    },
+    {
+      "from": "pending",
+      "to": "dep_pending",
+      "label": "deposit > 0"
+    },
+    {
+      "from": "dep_pending",
+      "to": "dep_failed",
+      "label": "failed",
+      "variant": "security"
+    },
+    {
+      "from": "dep_pending",
+      "to": "dep_ok",
+      "label": "succeeded",
+      "variant": "emphasis"
+    },
+    {
+      "from": "dep_ok",
+      "to": "confirmed",
+      "label": "confirm",
+      "variant": "emphasis"
+    },
+    {
+      "from": "dep_failed",
+      "to": "cancelled",
+      "label": "system",
+      "variant": "security"
+    },
+    {
+      "from": "confirmed",
+      "to": "completed",
+      "label": "visit done",
+      "variant": "emphasis"
+    },
+    {
+      "from": "confirmed",
+      "to": "no_show",
+      "variant": "dashed"
+    },
+    {
+      "from": "confirmed",
+      "to": "cancelled",
+      "label": "cancel",
+      "variant": "security"
+    },
+    {
+      "from": "pending",
+      "to": "cancelled",
+      "label": "cancel",
+      "variant": "security"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Slot rules",
+      "items": [
+        "Only pending and confirmed rows take part in EXCLUDE no_double_booking",
+        "CHECK: status = cancelled exactly when cancelled_at is set",
+        "Guest can cancel a pending or confirmed booking through booking_token"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Payment ledger",
+      "items": [
+        "payment.status: pending -> succeeded | failed; succeeded -> refunded",
+        "A refund is a new payment row with kind = refund and a negative amount",
+        "Remaining amount after the visit is a new row with kind = balance"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "After completed",
+      "items": [
+        "Trigger review_completed_check allows one review per completed appointment",
+        "Published reviews update staff.rating_sum and rating_count"
+      ]
+    },
+    {
+      "dot": "slate",
+      "title": "Source",
+      "items": [
+        "Enums and constraints from booking_schema.sql",
+        "Transition rules are inferred from the schema design; no backend code enforces them yet"
+      ]
+    }
+  ]
+}

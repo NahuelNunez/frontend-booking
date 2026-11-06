@@ -1,0 +1,187 @@
+/* =====================================================================
+   Loube theme for Tailwind CSS v4 · "Capsule", bolder edition
+   Paste into src/index.css right after:  @import "tailwindcss";
+   Add the fonts to index.html <head>:
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700;800&family=Onest:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
+
+   The idea: the time slot is the brand. Its shape (a capsule), its color
+   (cyan on black) carry everything.
+   Usage:  bg-paper text-ink   bg-primary text-on-primary   text-primary-text   bg-spark text-on-spark
+           font-display   font-mono   rounded-pill   shadow-float   pattern-orbit
+           bg-hero text-white pattern-capsules (hero band)   ring-word (outlined pill around a word)
+   ===================================================================== */
+
+/* ---------- 1. Colors: light (default) ---------- */
+:root {
+  /* Cyan: actions, selected slots, focus. Use primary-text for cyan text on light backgrounds */
+  --loube-primary:        #00D2E6;
+  --loube-hero:           #0A0A0B;  /* full-bleed black hero and owner panels, white text */
+  --loube-primary-strong: #00B8CC;
+  --loube-primary-soft:   #D5F7FB;
+  --loube-on-primary:     #031417;
+  --loube-primary-text:   #007585;  /* cyan for text and icons on light backgrounds */
+
+  /* Cyan spark: one highlight per screen on the black hero. Stickers, a key word, the "new" dot */
+  --loube-spark:      #00E5FF;
+  --loube-spark-soft: #D5F7FB;
+  --loube-on-spark:   #031417;
+  --loube-star:     #007585;  /* rating stars on light backgrounds */
+
+  /* Neutrals, near-black and clean grey */
+  --loube-paper:       #F4F5F5;
+  --loube-surface:     #FFFFFF;
+  --loube-sunken:      #ECEEEF;
+  --loube-line:        #E0E3E4;
+  --loube-line-strong: #C4C9CB;
+  --loube-muted:       #5E6569;
+  --loube-ink:         #0A0A0B;
+
+  /* Appointment status, always paired with a word */
+  --loube-pending:   #9A6A00;  --loube-pending-soft:   #FFF3D1;
+  --loube-confirmed: #007585;  --loube-confirmed-soft: #D5F7FB;
+  --loube-completed: #12795A;  --loube-completed-soft: #E1F5EC;
+  --loube-cancelled: #6B7175;  --loube-cancelled-soft: #ECEEEF;
+  --loube-noshow:    #C2335F;  --loube-noshow-soft:    #FDE6EE;
+
+  --loube-shadow-float:   0 24px 48px -24px rgb(0 190 210 / .5);
+  --loube-shadow-overlay: 0 1px 2px rgb(12 12 22 / .05), 0 16px 40px rgb(12 12 22 / .10);
+}
+
+/* ---------- 2. Colors: dark ---------- */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) { color-scheme: dark;
+    --loube-hero:#17171A;
+    --loube-primary:#00E5FF; --loube-primary-strong:#5CEFFF; --loube-primary-soft:#06292E; --loube-on-primary:#031417; --loube-primary-text:#3FE6F7;
+    --loube-spark:#00E5FF; --loube-spark-soft:#06292E; --loube-on-spark:#031417; --loube-star:#00E5FF;
+    --loube-paper:#0A0A0B; --loube-surface:#141416; --loube-sunken:#1C1C1F; --loube-line:#2A2A2E; --loube-line-strong:#3A3A40;
+    --loube-muted:#9C9CA3; --loube-ink:#F2F2F3;
+    --loube-pending:#F2C04D; --loube-pending-soft:#33290F; --loube-confirmed:#3FE6F7; --loube-confirmed-soft:#06292E;
+    --loube-completed:#6FD8AE; --loube-completed-soft:#10301F; --loube-cancelled:#9C9CA3; --loube-cancelled-soft:#1C1C1F;
+    --loube-noshow:#FF8FB1; --loube-noshow-soft:#3A1524;
+    --loube-shadow-float: 0 24px 48px -24px rgb(0 229 255 / .3);
+    --loube-shadow-overlay: 0 1px 2px rgb(0 0 0 / .4), 0 16px 40px rgb(0 0 0 / .5);
+  }
+}
+/* Manual toggle: class="dark" or class="light" on <html> */
+:root.dark { color-scheme: dark;
+  --loube-hero:#17171A;
+  --loube-primary:#00E5FF; --loube-primary-strong:#5CEFFF; --loube-primary-soft:#06292E; --loube-on-primary:#031417; --loube-primary-text:#3FE6F7;
+  --loube-spark:#00E5FF; --loube-spark-soft:#06292E; --loube-on-spark:#031417; --loube-star:#00E5FF;
+  --loube-paper:#0A0A0B; --loube-surface:#141416; --loube-sunken:#1C1C1F; --loube-line:#2A2A2E; --loube-line-strong:#3A3A40;
+  --loube-muted:#9C9CA3; --loube-ink:#F2F2F3;
+  --loube-pending:#F2C04D; --loube-pending-soft:#33290F; --loube-confirmed:#3FE6F7; --loube-confirmed-soft:#06292E;
+  --loube-completed:#6FD8AE; --loube-completed-soft:#10301F; --loube-cancelled:#9C9CA3; --loube-cancelled-soft:#1C1C1F;
+  --loube-noshow:#FF8FB1; --loube-noshow-soft:#3A1524;
+  --loube-shadow-float: 0 24px 48px -24px rgb(0 229 255 / .3);
+  --loube-shadow-overlay: 0 1px 2px rgb(0 0 0 / .4), 0 16px 40px rgb(0 0 0 / .5);
+}
+
+/* ---------- 3. Tailwind tokens ---------- */
+@theme inline {
+  --color-hero: var(--loube-hero);
+  --color-primary: var(--loube-primary);
+  --color-primary-strong: var(--loube-primary-strong);
+  --color-primary-soft: var(--loube-primary-soft);
+  --color-on-primary: var(--loube-on-primary);
+  --color-primary-text: var(--loube-primary-text);
+  --color-spark: var(--loube-spark);
+  --color-spark-soft: var(--loube-spark-soft);
+  --color-on-spark: var(--loube-on-spark);
+  --color-star: var(--loube-star);
+  --color-paper: var(--loube-paper);
+  --color-surface: var(--loube-surface);
+  --color-sunken: var(--loube-sunken);
+  --color-line: var(--loube-line);
+  --color-line-strong: var(--loube-line-strong);
+  --color-muted: var(--loube-muted);
+  --color-ink: var(--loube-ink);
+  --color-pending: var(--loube-pending);       --color-pending-soft: var(--loube-pending-soft);
+  --color-confirmed: var(--loube-confirmed);   --color-confirmed-soft: var(--loube-confirmed-soft);
+  --color-completed: var(--loube-completed);   --color-completed-soft: var(--loube-completed-soft);
+  --color-cancelled: var(--loube-cancelled);   --color-cancelled-soft: var(--loube-cancelled-soft);
+  --color-noshow: var(--loube-noshow);         --color-noshow-soft: var(--loube-noshow-soft);
+
+  --font-display: "Unbounded", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --font-sans: "Onest", "Helvetica Neue", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  --text-xs: 0.75rem;    --text-xs--line-height: 1.4;
+  --text-sm: 0.875rem;   --text-sm--line-height: 1.5;
+  --text-base: 1rem;     --text-base--line-height: 1.6;
+  --text-lg: 1.25rem;    --text-lg--line-height: 1.45;
+  --text-2xl: 1.75rem;   --text-2xl--line-height: 1.15;
+  --text-4xl: 2.75rem;   --text-4xl--line-height: 1.02;
+  --text-7xl: 5.5rem;    --text-7xl--line-height: 0.92;
+
+  /* Shape: big soft corners; the capsule is the signature */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
+
+  --shadow-float: var(--loube-shadow-float);
+  --shadow-overlay: var(--loube-shadow-overlay);
+  --ease-spring: cubic-bezier(.34, 1.4, .64, 1);
+  --ease-out: cubic-bezier(.2, .8, .2, 1);
+}
+
+@layer base {
+  body { background: var(--loube-paper); color: var(--loube-ink); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+  h1, h2 { font-family: var(--font-display); font-weight: 800; letter-spacing: -0.02em; text-wrap: balance; }
+  h3, h4 { font-weight: 600; letter-spacing: -0.015em; }
+  ::selection { background: var(--loube-spark); color: var(--loube-on-spark); }
+  :focus-visible { outline: 2px solid var(--loube-primary); outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+}
+
+/* ---------- 4. Patterns ---------- */
+/* Orbit: concentric hairline rings, like a clock face seen from above. Hero backgrounds. */
+@utility pattern-orbit {
+  background-image: repeating-radial-gradient(circle at 70% 40%, transparent 0 46px, var(--loube-line) 46px 47px);
+}
+/* Fading grid: hairline grid that dissolves toward the edges. Sections and empty states. */
+@utility pattern-grid {
+  background-image:
+    linear-gradient(var(--loube-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--loube-line) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
+}
+/* Glow: one soft cyan light and a smaller spark light. Behind the hero only. */
+@utility pattern-glow {
+  background-image:
+    radial-gradient(40% 50% at 78% 30%, color-mix(in srgb, var(--loube-primary) 22%, transparent), transparent 70%),
+    radial-gradient(18% 24% at 92% 70%, color-mix(in srgb, var(--loube-spark) 35%, transparent), transparent 70%);
+}
+/* Hours: one hairline per hour (60px = 1 hour). Behind the agenda. */
+@utility pattern-hours {
+  background-image: linear-gradient(var(--loube-line) 1px, transparent 1px);
+  background-size: 100% 60px;
+}
+/* Unavailable: thin diagonal lines. Time off, breaks and closed hours. */
+@utility pattern-unavailable {
+  background-image: repeating-linear-gradient(-45deg, var(--loube-line-strong) 0 1px, transparent 1px 8px);
+}
+
+/* ---------- Bolder edition ---------- */
+/* Capsules: rows of outlined time slots, one filled. Uses the text color, so put it on a colored band:
+   <section class="bg-hero text-white pattern-capsules">  (needs position: relative on the element) */
+@utility pattern-capsules {
+  position: relative; isolation: isolate;
+  &::before {
+    content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: currentColor; opacity: .16;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='80'%3E%3Cg fill='none' stroke='black' stroke-width='1.5'%3E%3Crect x='6' y='8' width='70' height='26' rx='13'/%3E%3Crect x='88' y='8' width='44' height='26' rx='13'/%3E%3Crect x='30' y='46' width='54' height='26' rx='13'/%3E%3C/g%3E%3Crect x='98' y='46' width='52' height='26' rx='13' fill='black' fill-opacity='.6'/%3E%3C/svg%3E") 0 0 / 160px 80px repeat;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='80'%3E%3Cg fill='none' stroke='black' stroke-width='1.5'%3E%3Crect x='6' y='8' width='70' height='26' rx='13'/%3E%3Crect x='88' y='8' width='44' height='26' rx='13'/%3E%3Crect x='30' y='46' width='54' height='26' rx='13'/%3E%3C/g%3E%3Crect x='98' y='46' width='52' height='26' rx='13' fill='black' fill-opacity='.6'/%3E%3C/svg%3E") 0 0 / 160px 80px repeat;
+  }
+}
+/* Ring word: an outlined capsule around one word in a headline. <span class="ring-word">calendar</span> */
+@utility ring-word {
+  display: inline-block; border: .06em solid var(--loube-primary); border-radius: 999px; padding: 0 .24em .05em; line-height: .95;
+}
+/* Sticker: a small tilted pill floating over a card. Use 1 to 3 per hero, never over the chosen time. */
+@utility sticker {
+  display: inline-block; border-radius: 999px; padding: 9px 16px; font-family: var(--font-mono); font-size: .8rem; font-weight: 600;
+  transform: rotate(-6deg); box-shadow: 0 16px 30px -14px rgb(0 0 0 / .55);
+}

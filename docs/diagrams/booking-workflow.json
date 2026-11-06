@@ -1,0 +1,279 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Guest Booking Workflow (designed flow)",
+    "output": "docs/diagrams/booking-workflow.html",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1240,
+      786
+    ],
+    "legend": {
+      "entries": {
+        "frontend": {
+          "label": "Guest UI"
+        },
+        "backend": {
+          "label": "API logic"
+        },
+        "security": {
+          "label": "Gate / failure"
+        },
+        "database": {
+          "label": "Database write"
+        },
+        "external": {
+          "label": "Payment provider"
+        }
+      }
+    }
+  },
+  "lanes": [
+    {
+      "id": "guest",
+      "label": "Guest (no login)"
+    },
+    {
+      "id": "api",
+      "label": "Booking API (planned)"
+    },
+    {
+      "id": "db",
+      "label": "PostgreSQL"
+    },
+    {
+      "id": "pay",
+      "label": "Stripe / MercadoPago"
+    },
+    {
+      "id": "exc",
+      "label": "Conflicts & failures",
+      "variant": "exception"
+    }
+  ],
+  "phases": [
+    {
+      "id": "browse",
+      "label": "Browse",
+      "fromCol": 0,
+      "toCol": 1
+    },
+    {
+      "id": "book",
+      "label": "Book",
+      "fromCol": 2,
+      "toCol": 3,
+      "variant": "emphasis"
+    },
+    {
+      "id": "pay-phase",
+      "label": "Deposit + confirm",
+      "fromCol": 4,
+      "toCol": 5,
+      "variant": "dashed"
+    }
+  ],
+  "mainPath": [
+    "open",
+    "slots",
+    "pick",
+    "insert",
+    "gate",
+    "deposit",
+    "confirmed"
+  ],
+  "nodes": [
+    {
+      "id": "open",
+      "lane": "guest",
+      "col": 0,
+      "type": "frontend",
+      "label": "Open shop page",
+      "sublabel": "branch, pro, services",
+      "tag": "slug subdomain",
+      "width": 190
+    },
+    {
+      "id": "pick",
+      "lane": "guest",
+      "col": 2,
+      "type": "frontend",
+      "label": "Pick slot",
+      "sublabel": "name + phone",
+      "width": 190
+    },
+    {
+      "id": "slots",
+      "lane": "api",
+      "col": 1,
+      "type": "backend",
+      "label": "Compute free slots",
+      "sublabel": "hours - off - booked",
+      "width": 190
+    },
+    {
+      "id": "gate",
+      "lane": "api",
+      "col": 4,
+      "type": "security",
+      "label": "Deposit due?",
+      "sublabel": "sum price x deposit %",
+      "width": 190
+    },
+    {
+      "id": "insert",
+      "lane": "db",
+      "col": 3,
+      "type": "database",
+      "label": "Insert booking",
+      "sublabel": "customer + items",
+      "tag": "status pending",
+      "width": 190
+    },
+    {
+      "id": "confirmed",
+      "lane": "db",
+      "col": 5,
+      "type": "database",
+      "label": "Confirmed",
+      "sublabel": "slot held",
+      "width": 190
+    },
+    {
+      "id": "deposit",
+      "lane": "pay",
+      "col": 4,
+      "type": "external",
+      "label": "Pay deposit",
+      "sublabel": "idempotency_key",
+      "tag": "webhook",
+      "width": 190
+    },
+    {
+      "id": "conflict",
+      "lane": "exc",
+      "col": 3,
+      "type": "security",
+      "label": "Slot taken",
+      "sublabel": "no_double_booking",
+      "tag": "HTTP 409",
+      "width": 190
+    },
+    {
+      "id": "failed",
+      "lane": "exc",
+      "col": 4,
+      "type": "security",
+      "label": "Payment failed",
+      "sublabel": "cancelled by system",
+      "width": 190
+    }
+  ],
+  "edges": [
+    {
+      "id": "e-browse",
+      "from": "open",
+      "to": "slots",
+      "label": "choices",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e-offer",
+      "from": "slots",
+      "to": "pick",
+      "label": "free slots",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e-submit",
+      "from": "pick",
+      "to": "insert",
+      "label": "slot + contact",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e-pending",
+      "from": "insert",
+      "to": "gate",
+      "label": "booking_token",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e-yes",
+      "from": "gate",
+      "to": "deposit",
+      "label": "deposit > 0",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e-paid",
+      "from": "deposit",
+      "to": "confirmed",
+      "label": "succeeded",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e-no",
+      "from": "gate",
+      "to": "confirmed",
+      "label": "no deposit",
+      "variant": "dashed",
+      "role": "branch"
+    },
+    {
+      "id": "e-race",
+      "from": "insert",
+      "to": "conflict",
+      "label": "overlap",
+      "variant": "security",
+      "role": "error"
+    },
+    {
+      "id": "e-retry",
+      "from": "conflict",
+      "to": "slots",
+      "label": "pick again",
+      "variant": "dashed",
+      "role": "return"
+    },
+    {
+      "id": "e-fail",
+      "from": "deposit",
+      "to": "failed",
+      "label": "failed",
+      "variant": "security",
+      "role": "error"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Happy path",
+      "items": [
+        "Tenant comes from the subdomain slug; the guest picks branch, professional, then services",
+        "Free slots = location_hours - time_off - pending/confirmed appointments",
+        "One transaction finds or creates the customer, inserts the appointment and frozen appointment_items"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Guards",
+      "items": [
+        "EXCLUDE no_double_booking turns a race between two guests into a 409",
+        "Deposit webhooks are deduplicated by (tenant_id, idempotency_key)",
+        "A failed or unpaid deposit cancels the booking with cancelled_by = system"
+      ]
+    },
+    {
+      "dot": "slate",
+      "title": "After booking",
+      "items": [
+        "Guest manages or cancels through booking_token, no account needed",
+        "Staff mark completed or no_show; balance and refunds are new payment rows",
+        "Only a completed appointment can receive its single review",
+        "Status details: see appointment-lifecycle.html"
+      ]
+    }
+  ]
+}

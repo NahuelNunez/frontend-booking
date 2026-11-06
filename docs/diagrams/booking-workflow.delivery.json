@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "8c66b3a2-b5ee-427d-9040-54a7d43432cc",
+  "status": "current",
+  "command": "deliver",
+  "type": "workflow",
+  "input": "E:\\Booking\\docs\\diagrams\\booking-workflow.json",
+  "output": "E:\\Booking\\docs\\diagrams\\booking-workflow.html",
+  "specification": {
+    "sha256": "0d039cb9cb10c6513e310c3e726770802382f10a3c7e05100ba60304d1719232",
+    "bytes": 5926
+  },
+  "artifact": {
+    "sha256": "6e30d69ea7be6506e57a6c6a6b2de24fa85bb41a688a8692ce5a9806385ca1a9",
+    "bytes": 763503
+  }
+}

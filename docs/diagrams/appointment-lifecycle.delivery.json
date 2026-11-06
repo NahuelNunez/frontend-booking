@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "b09cbc26-a9f8-41d8-acd1-7dc975e80056",
+  "status": "current",
+  "command": "deliver",
+  "type": "lifecycle",
+  "input": "E:\\Booking\\docs\\diagrams\\appointment-lifecycle.json",
+  "output": "E:\\Booking\\docs\\diagrams\\appointment-lifecycle.html",
+  "specification": {
+    "sha256": "e54cc6561de97d89ac9b2c68f2e489771f224da010b351cb39f35a89beee1318",
+    "bytes": 4339
+  },
+  "artifact": {
+    "sha256": "ea6bae97b753c682a4cc0059ea0a301066264c927ca935b3d63705105b64a538",
+    "bytes": 763686
+  }
+}

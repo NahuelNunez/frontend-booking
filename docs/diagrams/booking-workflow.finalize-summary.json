@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "workflow",
+  "quality": "showcase",
+  "specification": {
+    "path": "E:\\Booking\\docs\\diagrams\\booking-workflow.json",
+    "sha256": "0d039cb9cb10c6513e310c3e726770802382f10a3c7e05100ba60304d1719232",
+    "bytes": 5926
+  },
+  "artifact": {
+    "path": "E:\\Booking\\docs\\diagrams\\booking-workflow.html",
+    "sha256": "6e30d69ea7be6506e57a6c6a6b2de24fa85bb41a688a8692ce5a9806385ca1a9",
+    "bytes": 763503
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "E:\\Booking\\docs\\diagrams\\booking-workflow.finalize.json",
+    "summaryReceipt": "E:\\Booking\\docs\\diagrams\\booking-workflow.finalize-summary.json",
+    "browserCheckReceipt": "E:\\Booking\\docs\\diagrams\\booking-workflow.browser-check.json"
+  },
+  "update": {
+    "status": "current",
+    "installedVersion": "3.0.1",
+    "availableVersion": "3.0.1",
+    "releaseNotes": null,
+    "checkedAt": "2026-10-05T02:22:26.936Z",
+    "source": "cache",
+    "noticeRequired": false,
+    "noticeText": null
+  },
+  "visualReview": "not-requested",
+  "durationMs": 4645,
+  "visualReviewRecommendation": {
+    "action": "inspect-route-readability",
+    "signals": {
+      "routesOverSuggestedBends": 1,
+      "routesOverSuggestedStretch": 1
+    },
+    "reason": "Automated gates passed, but crossings or detours still need perceptual review before claiming visual quality.",
+    "affectedRoutes": {
+      "crossings": [],
+      "detours": [
+        {
+          "relationship": {
+            "id": "e-browse",
+            "from": "open",
+            "to": "slots",
+            "label": "choices",
+            "collectionIndex": 0,
+            "artifactIndex": 1
+          },
+          "bends": 3,
+          "stretch": 1.24
+        },
+        {
+          "relationship": {
+            "id": "e-yes",
+            "from": "gate",
+            "to": "deposit",
+            "label": "deposit &gt; 0",
+            "collectionIndex": 9,
+            "artifactIndex": 10
+          },
+          "bends": 2,
+          "stretch": 2.111
+        }
+      ],
+      "truncated": false
+    },
+    "hints": [
+      "open → slots needs 3 bends: move node open or slots so they share a row or column with matching centers, or sit diagonally with a clear corner.",
+      "gate → deposit needs 2 bends: move node gate or deposit so they share a row or column with matching centers, or sit diagonally with a clear corner."
+    ],
+    "repair": "Trace these relationships at the desktop viewport. For Architecture, use references/architecture-layout-repair.md: reflow a blocked main path or tangled connected scene, and repair an isolated defect locally only when the surrounding composition is accepted. Preserve all semantic content and user-fixed geometry. Rerun finalize once after the edit."
+  }
+}

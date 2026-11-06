@@ -1,0 +1,354 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "Booking Data Flow (booking_schema.sql)",
+    "output": "docs/diagrams/booking-dataflow.html",
+    "quality_profile": "showcase",
+    "viewBox": [
+      990,
+      638
+    ]
+  },
+  "stages": [
+    {
+      "label": "Entry"
+    },
+    {
+      "label": "Catalog"
+    },
+    {
+      "label": "Availability"
+    },
+    {
+      "label": "Booking & money"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "picks",
+      "type": "frontend",
+      "label": "Guest picks",
+      "sublabel": "branch, pro, services",
+      "stage": 0,
+      "row": 0,
+      "tag": "no login",
+      "icon": "person"
+    },
+    {
+      "id": "details",
+      "type": "frontend",
+      "label": "Guest details",
+      "sublabel": "name, phone, email",
+      "stage": 0,
+      "row": 3,
+      "tag": "PII",
+      "icon": "person"
+    },
+    {
+      "id": "tenant",
+      "type": "database",
+      "label": "tenant",
+      "sublabel": "slug citext UNIQUE",
+      "stage": 0,
+      "row": 1,
+      "tag": "isolation root"
+    },
+    {
+      "id": "location",
+      "type": "database",
+      "label": "location",
+      "sublabel": "timezone, currency",
+      "stage": 1,
+      "row": 0,
+      "tag": "branch"
+    },
+    {
+      "id": "staff",
+      "type": "database",
+      "label": "staff",
+      "sublabel": "rating from reviews",
+      "stage": 1,
+      "row": 1,
+      "tag": "N:M branch"
+    },
+    {
+      "id": "service",
+      "type": "database",
+      "label": "service",
+      "sublabel": "price, deposit %",
+      "stage": 1,
+      "row": 2,
+      "tag": "menu"
+    },
+    {
+      "id": "customer",
+      "type": "database",
+      "label": "customer",
+      "sublabel": "tenant + phone",
+      "stage": 2,
+      "row": 3,
+      "tag": "find or create"
+    },
+    {
+      "id": "hours",
+      "type": "database",
+      "label": "location_hours",
+      "sublabel": "weekday, local time",
+      "stage": 2,
+      "row": 0,
+      "tag": "open windows"
+    },
+    {
+      "id": "timeoff",
+      "type": "database",
+      "label": "time_off",
+      "sublabel": "per staff range",
+      "stage": 2,
+      "row": 1,
+      "tag": "holes"
+    },
+    {
+      "id": "slots",
+      "type": "backend",
+      "label": "Free slots",
+      "sublabel": "minus booked slots",
+      "stage": 2,
+      "row": 2,
+      "tag": "computed",
+      "icon": "clock"
+    },
+    {
+      "id": "items",
+      "type": "database",
+      "label": "appointment_item",
+      "sublabel": "frozen snapshots",
+      "stage": 3,
+      "row": 1,
+      "tag": "1:N"
+    },
+    {
+      "id": "appointment",
+      "type": "database",
+      "label": "appointment",
+      "sublabel": "status, booking_token",
+      "stage": 3,
+      "row": 2,
+      "tag": "no_double_booking",
+      "height": 80,
+      "yOffset": -4
+    },
+    {
+      "id": "review",
+      "type": "database",
+      "label": "review",
+      "sublabel": "1 per appointment",
+      "stage": 3,
+      "row": 0,
+      "tag": "verified"
+    },
+    {
+      "id": "payment",
+      "type": "database",
+      "label": "payment",
+      "sublabel": "Stripe / MercadoPago",
+      "stage": 3,
+      "row": 3,
+      "tag": "append-only"
+    }
+  ],
+  "flows": [
+    {
+      "id": "f-slug",
+      "from": "picks",
+      "to": "tenant",
+      "label": "subdomain slug",
+      "variant": "emphasis",
+      "labelAt": [
+        100,
+        214
+      ]
+    },
+    {
+      "id": "f-branches",
+      "from": "tenant",
+      "to": "location",
+      "label": "active branches",
+      "variant": "emphasis"
+    },
+    {
+      "id": "f-pros",
+      "from": "location",
+      "to": "staff",
+      "label": "staff_location",
+      "classification": "N:M join",
+      "variant": "emphasis",
+      "labelAt": [
+        315,
+        214
+      ]
+    },
+    {
+      "id": "f-menu",
+      "from": "staff",
+      "to": "service",
+      "label": "any pro, any service",
+      "variant": "emphasis",
+      "labelAt": [
+        315,
+        328
+      ]
+    },
+    {
+      "id": "f-hours",
+      "from": "location",
+      "to": "hours",
+      "label": "weekday hours"
+    },
+    {
+      "id": "f-off",
+      "from": "staff",
+      "to": "timeoff",
+      "label": "staff_id"
+    },
+    {
+      "id": "f-minus",
+      "from": "hours",
+      "to": "timeoff",
+      "label": "minus time off",
+      "labelAt": [
+        530,
+        214
+      ]
+    },
+    {
+      "id": "f-open",
+      "from": "timeoff",
+      "to": "slots",
+      "label": "open windows",
+      "labelAt": [
+        530,
+        328
+      ]
+    },
+    {
+      "id": "f-duration",
+      "from": "service",
+      "to": "slots",
+      "label": "sum duration"
+    },
+    {
+      "id": "f-contact",
+      "from": "details",
+      "to": "customer",
+      "label": "name + phone",
+      "classification": "guest PII",
+      "variant": "security"
+    },
+    {
+      "id": "f-slot",
+      "from": "slots",
+      "to": "appointment",
+      "label": "chosen slot",
+      "classification": "status pending",
+      "variant": "emphasis"
+    },
+    {
+      "id": "f-cust",
+      "from": "customer",
+      "to": "appointment",
+      "label": "customer_id",
+      "toSide": "left",
+      "fromSide": "right"
+    },
+    {
+      "id": "f-items",
+      "from": "appointment",
+      "to": "items",
+      "label": "line items"
+    },
+    {
+      "id": "f-pay",
+      "from": "appointment",
+      "to": "payment",
+      "label": "deposit",
+      "variant": "emphasis",
+      "labelAt": [
+        745,
+        448
+      ]
+    },
+    {
+      "id": "f-review",
+      "from": "appointment",
+      "to": "review",
+      "label": "completed only",
+      "variant": "security",
+      "fromSide": "right",
+      "toSide": "right",
+      "via": [
+        [
+          835,
+          392
+        ],
+        [
+          835,
+          157
+        ]
+      ],
+      "labelAt": [
+        835,
+        328
+      ]
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Guest path (designed flow)",
+      "items": [
+        "Order is location -> professional -> services -> time, then guest details",
+        "Free slots = location_hours - time_off - pending/confirmed appointments",
+        "Booking inserts appointment (pending) plus one appointment_item per service",
+        "Guest reaches the booking later through booking_token, never an account",
+        "Free slots also subtract pending/confirmed appointments for that staff member",
+        "Free slots also subtract pending/confirmed appointments for that staff member"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Integrity rules in the database",
+      "items": [
+        "Composite (tenant_id, id) FKs make cross-tenant bookings impossible",
+        "appointment(staff_id, location_id) must exist in staff_location",
+        "EXCLUDE no_double_booking blocks overlapping pending/confirmed slots (API: 409)",
+        "review insert requires a completed appointment; hidden reviews do not count"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Money",
+      "items": [
+        "appointment_item freezes service name, duration, price and deposit at booking time",
+        "appointment_item freezes service name, duration, price and deposit at booking time",
+        "Deposit = sum of service price x deposit_percent, frozen on each item",
+        "payment rows are never updated into 'paid': refunds are new negative rows",
+        "UNIQUE (tenant_id, idempotency_key) makes provider retries safe",
+        "Provider webhooks set provider_payment_id and move status to succeeded or failed"
+      ]
+    },
+    {
+      "dot": "slate",
+      "title": "Not on the guest path",
+      "items": [
+        "currency (USD, ARS) is a lookup referenced by location, appointment and payment",
+        "currency (USD, ARS) is a lookup referenced by location, appointment and payment",
+        "user_account: staff logins only, optional 1:0..1 link to staff",
+        "Deferred tables: working_hours, location_closure",
+        "No backend endpoints exist yet; flow is taken from schema comments",
+        "review trigger keeps staff.rating_sum / rating_count in sync (published only)",
+        "review trigger keeps staff.rating_sum / rating_count in sync (published only)"
+      ]
+    }
+  ]
+}

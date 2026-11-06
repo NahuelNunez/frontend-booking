@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Loube Style Guide</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700;800&family=Onest:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: big expressive cover, then chapters with a narrow label column. The capsule (a time slot) is the recurring shape. */
+:root{
+  --primary:#00D2E6; --primary-strong:#00B8CC; --primary-soft:#D5F7FB; --on-primary:#031417; --primary-text:#007585;
+  --spark:#00E5FF; --spark-soft:#D5F7FB; --on-spark:#031417; --star:#007585;
+  --paper:#F4F5F5; --surface:#FFFFFF; --sunken:#ECEEEF; --line:#E0E3E4; --line-strong:#C4C9CB; --muted:#5E6569; --ink:#0A0A0B;
+  --pending:#9A6A00; --pending-soft:#FFF3D1; --confirmed:#007585; --confirmed-soft:#D5F7FB;
+  --completed:#12795A; --completed-soft:#E1F5EC; --cancelled:#6B7175; --cancelled-soft:#ECEEEF; --noshow:#C2335F; --noshow-soft:#FDE6EE;
+  --float:0 24px 48px -24px rgb(0 190 210/.5); --overlay:0 1px 2px rgb(12 12 22/.05),0 16px 40px rgb(12 12 22/.10);
+  --f-display:"Unbounded","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --f-sans:"Onest","Helvetica Neue","Segoe UI",system-ui,sans-serif;
+  --f-mono:"Geist Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){color-scheme:dark;
+  --primary:#00E5FF; --primary-strong:#5CEFFF; --primary-soft:#06292E; --on-primary:#031417; --primary-text:#3FE6F7;
+  --spark:#00E5FF; --spark-soft:#06292E; --on-spark:#031417; --star:#00E5FF;
+  --paper:#0A0A0B; --surface:#141416; --sunken:#1C1C1F; --line:#2A2A2E; --line-strong:#3A3A40; --muted:#9C9CA3; --ink:#F2F2F3;
+  --pending:#F2C04D; --pending-soft:#33290F; --confirmed:#3FE6F7; --confirmed-soft:#06292E;
+  --completed:#6FD8AE; --completed-soft:#10301F; --cancelled:#9C9CA3; --cancelled-soft:#1C1C1F; --noshow:#FF8FB1; --noshow-soft:#3A1524;
+  --float:0 24px 48px -24px rgb(0 229 255/.3); --overlay:0 1px 2px rgb(0 0 0/.4),0 16px 40px rgb(0 0 0/.5)}}
+:root[data-theme="dark"]{color-scheme:dark;
+  --primary:#00E5FF; --primary-strong:#5CEFFF; --primary-soft:#06292E; --on-primary:#031417; --primary-text:#3FE6F7;
+  --spark:#00E5FF; --spark-soft:#06292E; --on-spark:#031417; --star:#00E5FF;
+  --paper:#0A0A0B; --surface:#141416; --sunken:#1C1C1F; --line:#2A2A2E; --line-strong:#3A3A40; --muted:#9C9CA3; --ink:#F2F2F3;
+  --pending:#F2C04D; --pending-soft:#33290F; --confirmed:#3FE6F7; --confirmed-soft:#06292E;
+  --completed:#6FD8AE; --completed-soft:#10301F; --cancelled:#9C9CA3; --cancelled-soft:#1C1C1F; --noshow:#FF8FB1; --noshow-soft:#3A1524;
+  --float:0 24px 48px -24px rgb(0 229 255/.3); --overlay:0 1px 2px rgb(0 0 0/.4),0 16px 40px rgb(0 0 0/.5)}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 var(--f-sans);-webkit-font-smoothing:antialiased}
+::selection{background:var(--spark);color:var(--on-spark)}
+h1,h2{font-family:var(--f-display);font-weight:800;letter-spacing:-.02em;line-height:1;margin:0;text-wrap:balance}
+h3{margin:0;font-weight:600;letter-spacing:-.015em;line-height:1.25}
+p{margin:0}
+:focus-visible{outline:2px solid var(--primary);outline-offset:3px;border-radius:6px}
+code,.mono{font-family:var(--f-mono);font-size:.82em}
+.muted{color:var(--muted)}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* cover */
+.cover{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+.cover::before{content:"";position:absolute;inset:0;background-image:repeating-radial-gradient(circle at 78% 42%,transparent 0 46px,var(--line) 46px 47px);opacity:.9;pointer-events:none}
+.cover::after{content:"";position:absolute;inset:0;background-image:radial-gradient(38% 50% at 78% 36%,color-mix(in srgb,var(--primary) 22%,transparent),transparent 70%),radial-gradient(16% 22% at 92% 72%,color-mix(in srgb,var(--spark) 40%,transparent),transparent 70%);pointer-events:none}
+.cover .wrap{position:relative;z-index:1;padding-block:40px 72px;display:grid;gap:28px}
+.brand{display:flex;align-items:center;gap:10px;font:800 1.2rem var(--f-display);letter-spacing:-.015em}
+.mark{width:30px;height:16px;border-radius:999px;background:var(--primary);position:relative;display:block}
+.mark::after{content:"";position:absolute;right:3px;top:3px;width:10px;height:10px;border-radius:50%;background:var(--spark)}
+.cover h1{font-size:clamp(3.2rem,10vw,7.5rem);line-height:.9;letter-spacing:-.025em;max-width:11ch;margin-top:40px}
+.cap{display:inline-block;background:var(--primary);color:var(--on-primary);border-radius:999px;padding:0 .32em .06em;line-height:.95}
+.cover p{max-width:52ch;font-size:1.15rem;color:var(--muted)}
+.sticker{position:absolute;right:max(16px,6vw);top:36px;z-index:2;background:var(--spark);color:var(--on-spark);font:700 .82rem var(--f-mono);padding:10px 16px;border-radius:999px;transform:rotate(8deg);box-shadow:var(--overlay)}
+@media (max-width:700px){.sticker{position:static;transform:rotate(-3deg);width:max-content}}
+.slots-row{display:flex;gap:8px;flex-wrap:wrap}
+.slot{font:500 .88rem var(--f-mono);padding:8px 16px;border-radius:999px;border:1.5px solid var(--line-strong);background:var(--surface)}
+.slot.booked{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.slot.sel{background:var(--primary);color:var(--on-primary);border-color:var(--primary);box-shadow:var(--float)}
+.slot.held{border-style:dashed;border-color:var(--pending);color:var(--pending);background:var(--pending-soft)}
+.slot.off{color:var(--muted);background-image:repeating-linear-gradient(-45deg,var(--line-strong) 0 1px,transparent 1px 7px);border-color:var(--line)}
+
+nav.toc{display:flex;gap:6px;overflow-x:auto;padding-block:14px;border-bottom:1px solid var(--line);scrollbar-width:none}
+nav.toc a{font-size:.88rem;color:var(--muted);text-decoration:none;padding:6px 12px;border-radius:999px;white-space:nowrap;border:1px solid transparent}
+nav.toc a:hover{color:var(--ink);border-color:var(--line-strong)}
+
+.chap{display:grid;grid-template-columns:220px 1fr;gap:32px;padding-block:64px;border-bottom:1px solid var(--line);scroll-margin-top:8px}
+@media (max-width:820px){.chap{grid-template-columns:1fr;gap:20px;padding-block:48px}}
+.label{display:grid;gap:8px;align-content:start}
+.label span{font:500 .78rem var(--f-mono);color:var(--primary-text)}
+.label h2{font-size:2rem}
+.body{display:grid;gap:28px;min-width:0}
+.lead{font-size:1.3rem;line-height:1.45;letter-spacing:-.01em;max-width:44ch}
+.sub{font:500 .76rem var(--f-mono);color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+
+.princ{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media (max-width:700px){.princ{grid-template-columns:1fr}}
+.princ div{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:22px;display:grid;gap:8px;align-content:start}
+.princ b{font:800 2rem var(--f-display);color:var(--primary-text);line-height:1}
+.princ p{color:var(--muted);font-size:.94rem}
+
+/* color */
+.hero-sw{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px}
+@media (max-width:700px){.hero-sw{grid-template-columns:1fr 1fr}.hero-sw .big{grid-column:1/-1}}
+.hs{border-radius:24px;padding:20px;min-height:180px;display:grid;align-content:space-between;gap:12px}
+.hs b{font:800 1.6rem var(--f-display);letter-spacing:-.015em}
+.hs span{font:400 .78rem var(--f-mono);opacity:.85}
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.sw{border:1px solid var(--line);border-radius:14px;padding:12px;display:grid;gap:8px;background:var(--surface);min-width:0}
+.chip{height:48px;border-radius:999px;display:grid;grid-template-columns:1fr 1fr;overflow:hidden;border:1px solid var(--line)}
+.sw b{font-weight:500;font-size:.9rem}
+.sw p{font-size:.8rem;color:var(--muted);line-height:1.45}
+.copy{font:400 .72rem var(--f-mono);padding:3px 8px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer;justify-self:start}
+.copy:hover{color:var(--ink);border-color:var(--line-strong)}
+.ratio{display:flex;height:14px;border-radius:999px;overflow:hidden;border:1px solid var(--line)}
+.ratio-key{display:flex;gap:20px;flex-wrap:wrap;font-size:.84rem;color:var(--muted)}
+
+/* status */
+.status{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+@media (max-width:760px){.status{grid-template-columns:1fr 1fr}}
+.st{border-radius:18px;padding:16px;display:grid;gap:10px;align-content:start}
+.st b{font:500 .82rem var(--f-mono);display:flex;align-items:center;gap:6px}
+.st b::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+.st p{font-size:.86rem;color:var(--ink);opacity:.8}
+
+/* type */
+.specimen{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:12px}
+@media (max-width:760px){.specimen{grid-template-columns:1fr}}
+.specimen>div{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:22px;display:grid;gap:8px;align-content:start;min-width:0}
+.specimen .big{font-size:4.5rem;line-height:.9;letter-spacing:-.025em}
+.specimen p{font-size:.86rem;color:var(--muted)}
+.scale{border-top:1px solid var(--line)}
+.scale-row{display:grid;grid-template-columns:150px 1fr;gap:16px;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--line)}
+@media (max-width:560px){.scale-row{grid-template-columns:1fr;gap:4px}}
+.scale-row .lbl{font:400 .76rem var(--f-mono);color:var(--muted);display:grid}
+.scale-row .lbl b{font-weight:500;color:var(--ink)}
+.scale-row .smp{min-width:0;overflow-wrap:anywhere}
+
+/* shape */
+.shape-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:700px){.shape-grid{grid-template-columns:1fr}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:22px;display:grid;gap:14px;align-content:start;min-width:0}
+.legend{display:grid;gap:10px}
+.legend div{display:flex;gap:12px;align-items:center;font-size:.9rem}
+.legend .slot{min-width:84px;text-align:center}
+.radii{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.radii div{display:grid;gap:6px;font:400 .76rem var(--f-mono);color:var(--muted)}
+.radii i{display:block;height:64px;border:1.5px solid var(--ink);background:var(--primary-soft)}
+.elev{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:24px;background:var(--sunken);border-radius:24px}
+@media (max-width:640px){.elev{grid-template-columns:1fr}}
+.elev div{background:var(--surface);border-radius:14px;padding:16px;display:grid;gap:4px;min-height:100px;align-content:end}
+.elev small{font:400 .74rem var(--f-mono);color:var(--muted)}
+.space{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap}
+.space div{display:grid;gap:6px;justify-items:center;font:400 .72rem var(--f-mono);color:var(--muted)}
+.space i{display:block;background:var(--primary);border-radius:4px;width:16px}
+
+/* patterns */
+.pats{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.pat{border:1px solid var(--line);border-radius:24px;overflow:hidden;background:var(--surface);display:grid}
+.pat-show{height:150px;border-bottom:1px solid var(--line);position:relative;background-color:var(--surface)}
+.pat-body{padding:14px 16px 16px;display:grid;gap:6px}
+.pat-body .row{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.pat-body b{font-weight:600}
+.pat-body p{font-size:.86rem;color:var(--muted)}
+.p-orbit{background-image:repeating-radial-gradient(circle at 70% 40%,transparent 0 22px,var(--line-strong) 22px 23px)}
+.p-grid{background-image:linear-gradient(var(--line-strong) 1px,transparent 1px),linear-gradient(90deg,var(--line-strong) 1px,transparent 1px);background-size:24px 24px;-webkit-mask-image:radial-gradient(ellipse at center,#000 25%,transparent 75%);mask-image:radial-gradient(ellipse at center,#000 25%,transparent 75%)}
+.p-glow{background-image:radial-gradient(45% 60% at 65% 40%,color-mix(in srgb,var(--primary) 30%,transparent),transparent 70%),radial-gradient(22% 30% at 85% 75%,color-mix(in srgb,var(--spark) 50%,transparent),transparent 70%)}
+.p-hours{background-image:linear-gradient(var(--line-strong) 1px,transparent 1px);background-size:100% 36px;background-position:0 12px}
+.p-hours i{position:absolute;left:22%;right:34%;top:50px;height:52px;border-radius:14px;background:var(--primary);box-shadow:var(--float)}
+.p-hours small{position:absolute;left:12px;font:400 .66rem var(--f-mono);color:var(--muted)}
+.p-un{background-image:repeating-linear-gradient(-45deg,var(--line-strong) 0 1px,transparent 1px 8px)}
+.rules{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:640px){.rules{grid-template-columns:1fr}}
+.rules>div{border-radius:24px;padding:20px;display:grid;gap:8px}
+.rules ul{margin:0;padding-left:18px;display:grid;gap:6px;font-size:.94rem}
+
+/* motion */
+.motion{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media (max-width:700px){.motion{grid-template-columns:1fr}}
+.mo{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:18px;display:grid;gap:8px;align-content:start}
+.mo-demo{height:56px;border-radius:999px;background:var(--sunken);position:relative;overflow:hidden}
+.mo-demo i{position:absolute;top:8px;left:8px;height:40px;width:72px;border-radius:999px;background:var(--surface);border:1.5px solid var(--line-strong)}
+.mo:hover .m1 i,.mo:focus-within .m1 i{transform:scale(1.08);background:var(--primary);border-color:var(--primary)}
+.m1 i{transition:transform .35s cubic-bezier(.34,1.4,.64,1),background .2s}
+.m2 i{background:var(--primary);border-color:var(--primary);animation:pop 2.4s cubic-bezier(.34,1.4,.64,1) infinite}
+@keyframes pop{0%{transform:scale(.6);opacity:0}25%,80%{transform:scale(1);opacity:1}100%{opacity:0}}
+.m3 i{width:40px;height:40px;background:var(--primary);border:0;animation:roll 1.6s cubic-bezier(.65,0,.35,1) infinite alternate}
+@keyframes roll{to{left:calc(100% - 48px)}}
+.mo b{font-weight:600}
+.mo p{font-size:.86rem;color:var(--muted)}
+
+/* ux & voice */
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.flow em{font-style:normal;color:var(--muted)}
+.ux{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:640px){.ux{grid-template-columns:1fr}}
+.ux div{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:20px;display:grid;gap:6px;align-content:start}
+.ux p{font-size:.94rem;color:var(--muted)}
+.voice{overflow-x:auto;border:1px solid var(--line);border-radius:24px;background:var(--surface)}
+.voice table{width:100%;border-collapse:collapse;min-width:540px;font-size:.92rem}
+.voice th,.voice td{padding:12px 18px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.voice tr:last-child td{border-bottom:0}
+.voice th{font:500 .74rem var(--f-mono);color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.voice td:nth-child(2){color:var(--muted);text-decoration:line-through;text-decoration-color:var(--line-strong)}
+.voice td:nth-child(3){font-weight:500}
+
+/* install */
+.steps{display:grid;gap:24px;counter-reset:s}
+.step{display:grid;gap:8px;min-width:0}
+.step h3{counter-increment:s;display:flex;gap:10px;align-items:center}
+.step h3::before{content:counter(s);width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--primary);color:var(--on-primary);font:500 .8rem var(--f-mono);flex:none}
+pre{margin:0;background:var(--sunken);border:1px solid var(--line);border-radius:14px;padding:14px 16px;overflow:auto;font:400 .78rem/1.65 var(--f-mono);max-height:380px}
+.code-head{display:flex;justify-content:space-between;align-items:center;gap:10px;font:400 .76rem var(--f-mono);color:var(--muted)}
+footer{padding-block:32px;color:var(--muted);font-size:.86rem}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(12px);background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:999px;font-size:.88rem;opacity:0;pointer-events:none;transition:.2s;z-index:50}
+.toast.show{opacity:1;transform:translateX(-50%)}
+
+/* ---- Capsule, bolder edition ---- */
+:root{--hero:#0A0A0B;--pills-w:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='80'%3E%3Cg fill='none' stroke='white' stroke-opacity='.16' stroke-width='1.5'%3E%3Crect x='6' y='8' width='70' height='26' rx='13'/%3E%3Crect x='88' y='8' width='44' height='26' rx='13'/%3E%3Crect x='30' y='46' width='54' height='26' rx='13'/%3E%3C/g%3E%3Crect x='98' y='46' width='52' height='26' rx='13' fill='white' fill-opacity='.096'/%3E%3C/svg%3E")}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--hero:#17171A}}
+:root[data-theme="dark"]{--hero:#17171A}
+body{overflow-x:clip}
+.cover{background-color:var(--hero);background-image:var(--pills-w);background-size:160px 80px;color:#fff;border-bottom:0;border-radius:0 0 clamp(28px,5vw,56px) clamp(28px,5vw,56px)}
+.cover::before{background-image:radial-gradient(45% 60% at 78% 35%,rgb(255 255 255/.18),transparent 70%);opacity:1}
+.cover::after{background-image:radial-gradient(20% 26% at 94% 90%,rgb(0 229 255/.5),transparent 70%)}
+.cover .brand{color:#fff}
+.cover .mark{background:#fff}
+.cover h1{color:#fff;letter-spacing:-.03em}
+.cover .cap{background:#00E5FF;color:#031417;transform:rotate(-3deg);box-shadow:0 18px 40px -16px rgb(0 0 0/.5)}
+.cover p{color:#fff;opacity:.85}
+.cover .sticker{background:#00E5FF;color:#031417}
+.cover .slot{background:transparent;color:#fff;border-color:rgb(255 255 255/.5)}
+.cover .slot.sel{background:#00E5FF;color:#031417;border-color:#00E5FF}
+.cover .slot.booked{background:#2A2A2E;color:#fff;border-color:#2A2A2E;text-decoration:none}
+.cover .slot.held{border-style:dashed;color:#fff;background:transparent}
+.cover .slot.off{opacity:.5;background-image:none}
+.cover .slot.free2{background:#fff;color:#0A0A0B;border-color:#fff}
+.p-caps{background-color:var(--hero)!important;background-image:var(--pills-w)!important;background-size:160px 80px!important}
+.p-ring{display:grid;place-items:center;font:800 2rem var(--f-display);letter-spacing:-.025em}
+.p-ring span{border:.07em solid var(--primary);border-radius:999px;padding:0 .24em .05em}
+</style>
+
+<header class="cover">
+  <div class="wrap">
+    <div class="brand"><span class="mark" aria-hidden="true"></span>loube</div>
+    <span class="sticker">Capsule · bolder edition</span>
+    <h1>Design that <span class="cap">books</span> itself.</h1>
+    <p>The Loube visual language. A time slot is the brand: its capsule shape, black and one bright cyan for action and highlight. It fits any business that runs on appointments.</p>
+    <div class="slots-row" aria-label="Example time slots">
+      <span class="slot booked">09:00</span><span class="slot">09:30</span><span class="slot sel">10:00</span><span class="slot">10:30</span><span class="slot held">11:00</span><span class="slot off">11:30</span><span class="slot free2">12:00</span>
+    </div>
+  </div>
+</header>
+<div class="wrap">
+<nav class="toc" aria-label="Sections">
+  <a href="#principles">Principles</a><a href="#color">Color</a><a href="#status">Status</a><a href="#type">Type</a><a href="#shape">Shape</a><a href="#patterns">Patterns</a><a href="#motion">Motion</a><a href="#ux">UX rules</a><a href="#voice">Voice</a><a href="#install">Install</a>
+</nav>
+
+<section class="chap" id="principles">
+  <div class="label"><span>00</span><h2>Principles</h2></div>
+  <div class="body"><div class="princ">
+    <div><b>1</b><h3>The slot is the brand</h3><p>The capsule shape of a time slot shows up everywhere: buttons, tags, the logo. People learn it in one booking.</p></div>
+    <div><b>2</b><h3>Cyan means go</h3><p>Cyan marks the one thing to tap. Everything else stays black, white and soft grey, so the next step is obvious.</p></div>
+    <div><b>3</b><h3>Black is the stage</h3><p>The hero and owner panels are black so cyan glows on them. Cyan is a highlight, never a background for whole sections. One sticker or key word per screen.</p></div>
+  </div></div>
+</section>
+
+<section class="chap" id="color">
+  <div class="label"><span>01</span><h2>Color</h2></div>
+  <div class="body">
+    <p class="lead">Black, white and cyan on clean grey paper. Chips show the light value on the left and dark mode on the right.</p>
+    <div class="hero-sw">
+      <div class="hs big" style="background:var(--primary);color:var(--on-primary)"><span>primary</span><div><b>Cyan</b><br><span>#00D2E6 · dark #00E5FF</span></div></div>
+      <div class="hs" style="background:var(--ink);color:var(--paper)"><span>ink</span><div><b>Ink</b><br><span>#0A0A0B</span></div></div>
+      <div class="hs" style="background:var(--spark);color:var(--on-spark)"><span>spark</span><div><b>Bright cyan</b><br><span>#00E5FF</span></div></div>
+    </div>
+    <div class="swatches" id="swatches"></div>
+    <div style="display:grid;gap:10px">
+      <span class="sub">Proportion</span>
+      <div class="ratio" aria-label="Color proportions"><span style="flex:62;background:var(--paper)"></span><span style="flex:24;background:var(--surface);border-left:1px solid var(--line)"></span><span style="flex:8;background:var(--ink)"></span><span style="flex:5;background:var(--primary)"></span><span style="flex:1;background:var(--spark)"></span></div>
+      <div class="ratio-key"><span>62% paper</span><span>24% surface</span><span>8% ink</span><span>5% cyan</span><span>1% bright cyan</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="status">
+  <div class="label"><span>02</span><h2>Status</h2></div>
+  <div class="body">
+    <p class="lead">Five appointment states. Each one is a color plus a word, never color alone.</p>
+    <div class="status">
+      <div class="st" style="background:var(--pending-soft);color:var(--pending)"><b>pending</b><p>Held, waiting for the deposit.</p><button class="copy" type="button" data-copy="bg-pending-soft text-pending">copy</button></div>
+      <div class="st" style="background:var(--confirmed-soft);color:var(--confirmed)"><b>confirmed</b><p>Deposit paid or approved.</p><button class="copy" type="button" data-copy="bg-confirmed-soft text-confirmed">copy</button></div>
+      <div class="st" style="background:var(--completed-soft);color:var(--completed)"><b>completed</b><p>They came and can review.</p><button class="copy" type="button" data-copy="bg-completed-soft text-completed">copy</button></div>
+      <div class="st" style="background:var(--cancelled-soft);color:var(--cancelled)"><b>cancelled</b><p>The time is free again.</p><button class="copy" type="button" data-copy="bg-cancelled-soft text-cancelled">copy</button></div>
+      <div class="st" style="background:var(--noshow-soft);color:var(--noshow)"><b>no-show</b><p>Never arrived. Deposit kept.</p><button class="copy" type="button" data-copy="bg-noshow-soft text-noshow">copy</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="type">
+  <div class="label"><span>03</span><h2>Type</h2></div>
+  <div class="body">
+    <p class="lead">A bold, wide display face for big moments, a clean sans for everything you read, and mono for times and prices.</p>
+    <div class="specimen">
+      <div><span class="sub">font-display</span><span class="big" style="font-family:var(--f-display);font-weight:800">Aa</span><b>Unbounded</b><p>Headlines only, 700 to 800, tight spacing. Round, wide letters like the capsule.</p></div>
+      <div><span class="sub">font-sans</span><span class="big" style="font-weight:600;font-size:3.6rem">Aa</span><b>Onest</b><p>Text, buttons, labels and forms. 400 to 700.</p></div>
+      <div><span class="sub">font-mono</span><span class="big" style="font-family:var(--f-mono);font-size:2.6rem;font-weight:400">16:30</span><b>Geist Mono</b><p>Times, durations, prices and codes.</p></div>
+    </div>
+    <div class="scale" id="scale"></div>
+  </div>
+</section>
+
+<section class="chap" id="shape">
+  <div class="label"><span>04</span><h2>Shape</h2></div>
+  <div class="body">
+    <p class="lead">The capsule is a time slot. Its four looks tell a client everything about a time at a glance.</p>
+    <div class="shape-grid">
+      <div class="panel"><span class="sub">The slot</span><div class="legend">
+        <div><span class="slot">10:30</span><span>Free. Outline on white.</span></div>
+        <div><span class="slot sel">10:00</span><span>Selected. Cyan with a soft cyan glow.</span></div>
+        <div><span class="slot held">11:00</span><span>Held for a deposit. Dashed outline.</span></div>
+        <div><span class="slot booked">09:00</span><span>Booked. Solid ink.</span></div>
+        <div><span class="slot off">11:30</span><span>Unavailable. Hairline hatch.</span></div>
+      </div></div>
+      <div class="panel"><span class="sub">Corners</span>
+        <div class="radii"><div><i style="border-radius:8px"></i>sm · 8</div><div><i style="border-radius:14px"></i>md · 14</div><div><i style="border-radius:24px"></i>lg · 24</div><div><i style="border-radius:999px"></i>pill</div></div>
+        <span class="sub">Spacing · 4px steps</span>
+        <div class="space" id="space"></div>
+      </div>
+    </div>
+    <div class="elev">
+      <div style="border:1px solid var(--line)"><b>Hairline</b><small>border-line</small><span class="muted" style="font-size:.86rem">Default for panels.</span></div>
+      <div style="box-shadow:var(--float)"><b>Float</b><small>shadow-float</small><span class="muted" style="font-size:.86rem">The selected slot and the main button.</span></div>
+      <div style="box-shadow:var(--overlay)"><b>Overlay</b><small>shadow-overlay</small><span class="muted" style="font-size:.86rem">Menus, sheets, dialogs.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="patterns">
+  <div class="label"><span>05</span><h2>Patterns</h2></div>
+  <div class="body">
+    <p class="lead">Five quiet backgrounds made from the shapes of time. One per screen, always behind content.</p>
+    <div class="pats" id="pats"></div>
+    <div class="rules">
+      <div style="background:var(--completed-soft)"><b style="color:var(--completed)">Use</b><ul><li>Orbit or glow behind a hero.</li><li>Fading grid for empty states.</li><li>Hours and hatch inside the agenda.</li></ul></div>
+      <div style="background:var(--noshow-soft)"><b style="color:var(--noshow)">Avoid</b><ul><li>Two patterns on one screen.</li><li>Text directly on a pattern without a surface.</li><li>Glow inside the owner dashboard.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="motion">
+  <div class="label"><span>06</span><h2>Motion</h2></div>
+  <div class="body">
+    <p class="lead">A little bounce when you choose something, calm everywhere else. All motion stops for people who prefer reduced motion.</p>
+    <div class="motion">
+      <div class="mo" tabindex="0"><div class="mo-demo m1"><i></i></div><b>Select · spring 350ms</b><p>Tapping a slot. It grows slightly and turns cyan. Hover me.</p></div>
+      <div class="mo"><div class="mo-demo m2"><i></i></div><b>Pop in · new booking</b><p>A new appointment arriving in the agenda.</p></div>
+      <div class="mo"><div class="mo-demo m3"><i></i></div><b>Rolling dot · loading</b><p>Replaces spinners while free times load.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="ux">
+  <div class="label"><span>07</span><h2>UX rules</h2></div>
+  <div class="body">
+    <div class="flow" aria-label="Booking order"><span class="slot">Branch</span><em>→</em><span class="slot">Professional</span><em>→</em><span class="slot">Services</span><em>→</em><span class="slot sel">One time</span><em>→</em><span class="slot">Name + phone</span></div>
+    <div class="ux">
+      <div><h3>One visit, one time</h3><p>One professional does every chosen service. The client picks one start time and sees the total duration and price.</p></div>
+      <div><h3>Only show what is free</h3><p>Never show a time and then reject it. Dim days with no openings and open on the first free day.</p></div>
+      <div><h3>No account for clients</h3><p>Ask for a name and phone at the very end, then hand over a private booking link.</p></div>
+      <div><h3>No surprises with money</h3><p>Deposit now, amount later and total stay visible, with the currency on every price.</p></div>
+      <div><h3>Today first</h3><p>The owner dashboard opens on today. Only things that need action get color.</p></div>
+      <div><h3>Made for thumbs</h3><p>Slots at least 44px tall, the main button at the bottom on phones, nothing scrolls sideways.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="chap" id="voice">
+  <div class="label"><span>08</span><h2>Voice</h2></div>
+  <div class="body">
+    <p class="lead">Short, warm and specific. Say what happens next.</p>
+    <div class="voice"><table>
+      <thead><tr><th>Moment</th><th>Avoid</th><th>Write</th></tr></thead>
+      <tbody>
+        <tr><td>Main button</td><td>Submit</td><td>Book for 16:30</td></tr>
+        <tr><td>Success</td><td>Appointment created successfully</td><td>You're booked, Lucía. See you Thursday at 16:30.</td></tr>
+        <tr><td>Time taken</td><td>Error 409: conflict</td><td>Someone just took 16:30. Here are the next free times.</td></tr>
+        <tr><td>Phone error</td><td>Invalid input</td><td>Add your country code, like +54 9 11 2233 4455.</td></tr>
+        <tr><td>Full day</td><td>No data</td><td>Ana is fully booked on Friday. Saturday has 6 free times.</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="chap" id="install">
+  <div class="label"><span>09</span><h2>Install</h2></div>
+  <div class="body">
+    <p class="lead">Your frontend already uses Tailwind v4, so this is two pastes.</p>
+    <div class="steps">
+      <div class="step"><h3>Load the fonts in <code>index.html</code></h3>
+        <div class="code-head"><span>index.html · inside &lt;head&gt;</span><button class="copy" type="button" data-copy-from="codeFonts">copy</button></div>
+        <pre id="codeFonts">&lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;
+&lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;
+&lt;link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700;800&amp;family=Onest:wght@400;500;600;700&amp;family=Geist+Mono:wght@400;500&amp;display=swap"&gt;</pre></div>
+      <div class="step"><h3>Paste the theme into <code>src/index.css</code></h3>
+        <p class="muted" style="font-size:.92rem">Right after <code>@import "tailwindcss";</code>, replacing the current <code>@layer base</code> block.</p>
+        <div class="code-head"><span>loube-theme.css</span><button class="copy" type="button" data-copy-from="codeTheme">copy</button></div>
+        <pre id="codeTheme">/* =====================================================================
+   Loube theme for Tailwind CSS v4 · &quot;Capsule&quot;, bolder edition
+   Paste into src/index.css right after:  @import &quot;tailwindcss&quot;;
+   Add the fonts to index.html &lt;head&gt;:
+   &lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.googleapis.com&quot;&gt;
+   &lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.gstatic.com&quot; crossorigin&gt;
+   &lt;link rel=&quot;stylesheet&quot; href=&quot;https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700;800&amp;family=Onest:wght@400;500;600;700&amp;family=Geist+Mono:wght@400;500&amp;display=swap&quot;&gt;
+
+   The idea: the time slot is the brand. Its shape (a capsule), its color
+   (cyan on black) carry everything.
+   Usage:  bg-paper text-ink   bg-primary text-on-primary   text-primary-text   bg-spark text-on-spark
+           font-display   font-mono   rounded-pill   shadow-float   pattern-orbit
+           bg-hero text-white pattern-capsules (hero band)   ring-word (outlined pill around a word)
+   ===================================================================== */
+
+/* ---------- 1. Colors: light (default) ---------- */
+:root {
+  /* Cyan: actions, selected slots, focus. Use primary-text for cyan text on light backgrounds */
+  --loube-primary:        #00D2E6;
+  --loube-hero:           #0A0A0B;  /* full-bleed black hero and owner panels, white text */
+  --loube-primary-strong: #00B8CC;
+  --loube-primary-soft:   #D5F7FB;
+  --loube-on-primary:     #031417;
+  --loube-primary-text:   #007585;  /* cyan for text and icons on light backgrounds */
+
+  /* Cyan spark: one highlight per screen on the black hero. Stickers, a key word, the &quot;new&quot; dot */
+  --loube-spark:      #00E5FF;
+  --loube-spark-soft: #D5F7FB;
+  --loube-on-spark:   #031417;
+  --loube-star:     #007585;  /* rating stars on light backgrounds */
+
+  /* Neutrals, near-black and clean grey */
+  --loube-paper:       #F4F5F5;
+  --loube-surface:     #FFFFFF;
+  --loube-sunken:      #ECEEEF;
+  --loube-line:        #E0E3E4;
+  --loube-line-strong: #C4C9CB;
+  --loube-muted:       #5E6569;
+  --loube-ink:         #0A0A0B;
+
+  /* Appointment status, always paired with a word */
+  --loube-pending:   #9A6A00;  --loube-pending-soft:   #FFF3D1;
+  --loube-confirmed: #007585;  --loube-confirmed-soft: #D5F7FB;
+  --loube-completed: #12795A;  --loube-completed-soft: #E1F5EC;
+  --loube-cancelled: #6B7175;  --loube-cancelled-soft: #ECEEEF;
+  --loube-noshow:    #C2335F;  --loube-noshow-soft:    #FDE6EE;
+
+  --loube-shadow-float:   0 24px 48px -24px rgb(0 190 210 / .5);
+  --loube-shadow-overlay: 0 1px 2px rgb(12 12 22 / .05), 0 16px 40px rgb(12 12 22 / .10);
+}
+
+/* ---------- 2. Colors: dark ---------- */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) { color-scheme: dark;
+    --loube-hero:#17171A;
+    --loube-primary:#00E5FF; --loube-primary-strong:#5CEFFF; --loube-primary-soft:#06292E; --loube-on-primary:#031417; --loube-primary-text:#3FE6F7;
+    --loube-spark:#00E5FF; --loube-spark-soft:#06292E; --loube-on-spark:#031417; --loube-star:#00E5FF;
+    --loube-paper:#0A0A0B; --loube-surface:#141416; --loube-sunken:#1C1C1F; --loube-line:#2A2A2E; --loube-line-strong:#3A3A40;
+    --loube-muted:#9C9CA3; --loube-ink:#F2F2F3;
+    --loube-pending:#F2C04D; --loube-pending-soft:#33290F; --loube-confirmed:#3FE6F7; --loube-confirmed-soft:#06292E;
+    --loube-completed:#6FD8AE; --loube-completed-soft:#10301F; --loube-cancelled:#9C9CA3; --loube-cancelled-soft:#1C1C1F;
+    --loube-noshow:#FF8FB1; --loube-noshow-soft:#3A1524;
+    --loube-shadow-float: 0 24px 48px -24px rgb(0 229 255 / .3);
+    --loube-shadow-overlay: 0 1px 2px rgb(0 0 0 / .4), 0 16px 40px rgb(0 0 0 / .5);
+  }
+}
+/* Manual toggle: class=&quot;dark&quot; or class=&quot;light&quot; on &lt;html&gt; */
+:root.dark { color-scheme: dark;
+  --loube-hero:#17171A;
+  --loube-primary:#00E5FF; --loube-primary-strong:#5CEFFF; --loube-primary-soft:#06292E; --loube-on-primary:#031417; --loube-primary-text:#3FE6F7;
+  --loube-spark:#00E5FF; --loube-spark-soft:#06292E; --loube-on-spark:#031417; --loube-star:#00E5FF;
+  --loube-paper:#0A0A0B; --loube-surface:#141416; --loube-sunken:#1C1C1F; --loube-line:#2A2A2E; --loube-line-strong:#3A3A40;
+  --loube-muted:#9C9CA3; --loube-ink:#F2F2F3;
+  --loube-pending:#F2C04D; --loube-pending-soft:#33290F; --loube-confirmed:#3FE6F7; --loube-confirmed-soft:#06292E;
+  --loube-completed:#6FD8AE; --loube-completed-soft:#10301F; --loube-cancelled:#9C9CA3; --loube-cancelled-soft:#1C1C1F;
+  --loube-noshow:#FF8FB1; --loube-noshow-soft:#3A1524;
+  --loube-shadow-float: 0 24px 48px -24px rgb(0 229 255 / .3);
+  --loube-shadow-overlay: 0 1px 2px rgb(0 0 0 / .4), 0 16px 40px rgb(0 0 0 / .5);
+}
+
+/* ---------- 3. Tailwind tokens ---------- */
+@theme inline {
+  --color-hero: var(--loube-hero);
+  --color-primary: var(--loube-primary);
+  --color-primary-strong: var(--loube-primary-strong);
+  --color-primary-soft: var(--loube-primary-soft);
+  --color-on-primary: var(--loube-on-primary);
+  --color-primary-text: var(--loube-primary-text);
+  --color-spark: var(--loube-spark);
+  --color-spark-soft: var(--loube-spark-soft);
+  --color-on-spark: var(--loube-on-spark);
+  --color-star: var(--loube-star);
+  --color-paper: var(--loube-paper);
+  --color-surface: var(--loube-surface);
+  --color-sunken: var(--loube-sunken);
+  --color-line: var(--loube-line);
+  --color-line-strong: var(--loube-line-strong);
+  --color-muted: var(--loube-muted);
+  --color-ink: var(--loube-ink);
+  --color-pending: var(--loube-pending);       --color-pending-soft: var(--loube-pending-soft);
+  --color-confirmed: var(--loube-confirmed);   --color-confirmed-soft: var(--loube-confirmed-soft);
+  --color-completed: var(--loube-completed);   --color-completed-soft: var(--loube-completed-soft);
+  --color-cancelled: var(--loube-cancelled);   --color-cancelled-soft: var(--loube-cancelled-soft);
+  --color-noshow: var(--loube-noshow);         --color-noshow-soft: var(--loube-noshow-soft);
+
+  --font-display: &quot;Unbounded&quot;, &quot;Avenir Next&quot;, &quot;Segoe UI&quot;, system-ui, sans-serif;
+  --font-sans: &quot;Onest&quot;, &quot;Helvetica Neue&quot;, &quot;Segoe UI&quot;, system-ui, sans-serif;
+  --font-mono: &quot;Geist Mono&quot;, ui-monospace, &quot;SFMono-Regular&quot;, Menlo, monospace;
+
+  --text-xs: 0.75rem;    --text-xs--line-height: 1.4;
+  --text-sm: 0.875rem;   --text-sm--line-height: 1.5;
+  --text-base: 1rem;     --text-base--line-height: 1.6;
+  --text-lg: 1.25rem;    --text-lg--line-height: 1.45;
+  --text-2xl: 1.75rem;   --text-2xl--line-height: 1.15;
+  --text-4xl: 2.75rem;   --text-4xl--line-height: 1.02;
+  --text-7xl: 5.5rem;    --text-7xl--line-height: 0.92;
+
+  /* Shape: big soft corners; the capsule is the signature */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
+
+  --shadow-float: var(--loube-shadow-float);
+  --shadow-overlay: var(--loube-shadow-overlay);
+  --ease-spring: cubic-bezier(.34, 1.4, .64, 1);
+  --ease-out: cubic-bezier(.2, .8, .2, 1);
+}
+
+@layer base {
+  body { background: var(--loube-paper); color: var(--loube-ink); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+  h1, h2 { font-family: var(--font-display); font-weight: 800; letter-spacing: -0.02em; text-wrap: balance; }
+  h3, h4 { font-weight: 600; letter-spacing: -0.015em; }
+  ::selection { background: var(--loube-spark); color: var(--loube-on-spark); }
+  :focus-visible { outline: 2px solid var(--loube-primary); outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+}
+
+/* ---------- 4. Patterns ---------- */
+/* Orbit: concentric hairline rings, like a clock face seen from above. Hero backgrounds. */
+@utility pattern-orbit {
+  background-image: repeating-radial-gradient(circle at 70% 40%, transparent 0 46px, var(--loube-line) 46px 47px);
+}
+/* Fading grid: hairline grid that dissolves toward the edges. Sections and empty states. */
+@utility pattern-grid {
+  background-image:
+    linear-gradient(var(--loube-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--loube-line) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
+}
+/* Glow: one soft cyan light and a smaller spark light. Behind the hero only. */
+@utility pattern-glow {
+  background-image:
+    radial-gradient(40% 50% at 78% 30%, color-mix(in srgb, var(--loube-primary) 22%, transparent), transparent 70%),
+    radial-gradient(18% 24% at 92% 70%, color-mix(in srgb, var(--loube-spark) 35%, transparent), transparent 70%);
+}
+/* Hours: one hairline per hour (60px = 1 hour). Behind the agenda. */
+@utility pattern-hours {
+  background-image: linear-gradient(var(--loube-line) 1px, transparent 1px);
+  background-size: 100% 60px;
+}
+/* Unavailable: thin diagonal lines. Time off, breaks and closed hours. */
+@utility pattern-unavailable {
+  background-image: repeating-linear-gradient(-45deg, var(--loube-line-strong) 0 1px, transparent 1px 8px);
+}
+
+/* ---------- Bolder edition ---------- */
+/* Capsules: rows of outlined time slots, one filled. Uses the text color, so put it on a colored band:
+   &lt;section class=&quot;bg-hero text-white pattern-capsules&quot;&gt;  (needs position: relative on the element) */
+@utility pattern-capsules {
+  position: relative; isolation: isolate;
+  &amp;::before {
+    content: &quot;&quot;; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: currentColor; opacity: .16;
+    -webkit-mask: url(&quot;data:image/svg+xml,%3Csvg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; width=&#x27;160&#x27; height=&#x27;80&#x27;%3E%3Cg fill=&#x27;none&#x27; stroke=&#x27;black&#x27; stroke-width=&#x27;1.5&#x27;%3E%3Crect x=&#x27;6&#x27; y=&#x27;8&#x27; width=&#x27;70&#x27; height=&#x27;26&#x27; rx=&#x27;13&#x27;/%3E%3Crect x=&#x27;88&#x27; y=&#x27;8&#x27; width=&#x27;44&#x27; height=&#x27;26&#x27; rx=&#x27;13&#x27;/%3E%3Crect x=&#x27;30&#x27; y=&#x27;46&#x27; width=&#x27;54&#x27; height=&#x27;26&#x27; rx=&#x27;13&#x27;/%3E%3C/g%3E%3Crect x=&#x27;98&#x27; y=&#x27;46&#x27; width=&#x27;52&#x27; height=&#x27;26&#x27; rx=&#x27;13&#x27; fill=&#x27;black&#x27; fill-opacity=&#x27;.6&#x27;/%3E%3C/svg%3E&quot;) 0 0 / 160px 80px repeat;
+            mask: url(&quot;data:image/svg+xml,%3Csvg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; width=&#x27;160&#x27; height=&#x27;80&#x27;%3E%3Cg fill=&#x27;none&#x27; stroke=&#x27;black&#x27; stroke-width=&#x27;1.5&#x27;%3E%3Crect x=&#x27;6&#x27; y=&#x27;8&#x27; width=&#x27;70&#x27; height=&#x27;26&#x27; rx=&#x27;13&#x27;/%3E%3Crect x=&#x27;88&#x27; y=&#x27;8&#x27; width=&#x27;44&#x27; height=&#x27;26&#x27; rx=&#x27;13&#x27;/%3E%3Crect x=&#x27;30&#x27; y=&#x27;46&#x27; width=&#x27;54&#x27; height=&#x27;26&#x27; rx=&#x27;13&#x27;/%3E%3C/g%3E%3Crect x=&#x27;98&#x27; y=&#x27;46&#x27; width=&#x27;52&#x27; height=&#x27;26&#x27; rx=&#x27;13&#x27; fill=&#x27;black&#x27; fill-opacity=&#x27;.6&#x27;/%3E%3C/svg%3E&quot;) 0 0 / 160px 80px repeat;
+  }
+}
+/* Ring word: an outlined capsule around one word in a headline. &lt;span class=&quot;ring-word&quot;&gt;calendar&lt;/span&gt; */
+@utility ring-word {
+  display: inline-block; border: .06em solid var(--loube-primary); border-radius: 999px; padding: 0 .24em .05em; line-height: .95;
+}
+/* Sticker: a small tilted pill floating over a card. Use 1 to 3 per hero, never over the chosen time. */
+@utility sticker {
+  display: inline-block; border-radius: 999px; padding: 9px 16px; font-family: var(--font-mono); font-size: .8rem; font-weight: 600;
+  transform: rotate(-6deg); box-shadow: 0 16px 30px -14px rgb(0 0 0 / .55);
+}
+</pre></div>
+      <div class="step"><h3>Use it</h3>
+        <pre>&lt;button class="rounded-pill bg-primary px-6 py-3 font-semibold text-on-primary shadow-float hover:bg-primary-strong"&gt;Book for 16:30&lt;/button&gt;
+&lt;h1 class="font-display text-7xl"&gt;Every hour, booked.&lt;/h1&gt;
+&lt;section class="pattern-orbit"&gt;…&lt;/section&gt;</pre></div>
+    </div>
+  </div>
+</section>
+<footer>Loube style guide · Capsule, bolder edition · colors, type, shape, patterns and rules.</footer>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function(){
+const SW=[
+ ["Cyan strong","primary-strong","#00B8CC","#5CEFFF","Hover and pressed."],
+ ["Cyan soft","primary-soft","#D5F7FB","#06292E","Selected backgrounds."],
+ ["Cyan text","primary-text","#007585","#3FE6F7","Cyan words and icons on light paper."],
+ ["Star","star","#007585","#00E5FF","Rating stars only."],
+ ["Muted","muted","#5E6569","#9C9CA3","Secondary text."],
+ ["Line strong","line-strong","#C4C9CB","#3A3A40","Input and slot borders."],
+ ["Line","line","#E0E3E4","#2A2A2E","Hairlines, patterns."],
+ ["Sunken","sunken","#ECEEEF","#1C1C1F","Quiet fills, code."],
+ ["Surface","surface","#FFFFFF","#141416","Panels, inputs."],
+ ["Paper","paper","#F4F5F5","#0A0A0B","Page background."]
+];
+document.getElementById("swatches").innerHTML=SW.map(([n,k,l,d,r])=>`<div class="sw"><div class="chip"><span style="background:${l}"></span><span style="background:${d}"></span></div><div><b>${n}</b><p>${r}</p></div><button class="copy" type="button" data-copy="${l}">${k} · ${l}</button></div>`).join("");
+const SC=[
+ ["text-7xl display","88 · 800","font-family:var(--f-display);font-weight:800;font-size:clamp(2.8rem,8vw,5.5rem);letter-spacing:-.025em;line-height:.92","Every hour."],
+ ["text-4xl display","44 · 800","font-family:var(--f-display);font-weight:800;font-size:clamp(2rem,5vw,2.75rem);letter-spacing:-.02em;line-height:1.02","Pick a time"],
+ ["text-2xl","28 · 600","font-size:1.75rem;font-weight:600;letter-spacing:-.02em","Your booking"],
+ ["text-lg","20 · 500","font-size:1.25rem;font-weight:500","Consultation and follow-up"],
+ ["text-base","16 · 400","font-size:1rem","Your time is held until the deposit goes through."],
+ ["text-sm","14 · 400","font-size:.875rem;color:var(--muted)","Prices in Argentine pesos"],
+ ["text-xs mono","12 · 500","font:500 .75rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--primary-text)","Thu 30 Oct · 16:30–18:00"]
+];
+document.getElementById("scale").innerHTML=SC.map(([c,m,s,t])=>`<div class="scale-row"><span class="lbl"><b>${c}</b>${m}</span><span class="smp" style="${s}">${t}</span></div>`).join("");
+document.getElementById("space").innerHTML=[4,8,12,16,24,32,48,64].map(v=>`<div><i style="height:${v}px"></i>${v}</div>`).join("");
+const PT=[
+ ["Capsules","pattern-capsules","p-caps","Rows of time slots on the black hero band and owner panels.",""],
+ ["Ring word","ring-word","p-ring","An outlined capsule around one word in a headline.","<span>calendar</span>"],
+ ["Orbit","pattern-orbit","p-orbit","Rings like a clock face. Hero backgrounds.",""],
+ ["Glow","pattern-glow","p-glow","A soft cyan light. Behind the hero only.",""],
+ ["Fading grid","pattern-grid","p-grid","A grid that dissolves at the edges. Empty states.",""],
+ ["Hours","pattern-hours","p-hours","One line per hour behind the agenda.","<small style='top:4px'>09:00</small><small style='top:40px'>10:00</small><small style='top:76px'>11:00</small><small style='top:112px'>12:00</small><i></i>"],
+ ["Unavailable","pattern-unavailable","p-un","Time off, breaks and closed hours.",""]
+];
+document.getElementById("pats").innerHTML=PT.map(([n,c,cls,d,inner])=>`<div class="pat"><div class="pat-show ${cls}">${inner}</div><div class="pat-body"><div class="row"><b>${n}</b><button class="copy" type="button" data-copy="${c}">${c}</button></div><p>${d}</p></div></div>`).join("");
+const t=document.getElementById("toast");let h;
+const toast=m=>{t.textContent=m;t.classList.add("show");clearTimeout(h);h=setTimeout(()=>t.classList.remove("show"),1600);};
+const select=el=>{const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r);toast("Selected. Press Ctrl+C or ⌘C");};
+document.addEventListener("click",e=>{const b=e.target.closest("[data-copy],[data-copy-from]");if(!b)return;
+  const el=b.dataset.copyFrom?document.getElementById(b.dataset.copyFrom):b;const text=b.dataset.copyFrom?el.textContent:b.dataset.copy;
+  try{navigator.clipboard.writeText(text).then(()=>toast("Copied"),()=>select(el));}catch(_){select(el);}});
+})();
+</script>
+</html>
